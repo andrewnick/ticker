@@ -1,13 +1,9 @@
 // @flow
 import configureStoreDev from './configureStore.dev';
-import configureStoreProd from './configureStore.prod';
+// import configureStoreProd from './configureStore.prod';
 
-const selectedConfigureStore =
-  process.env.NODE_ENV === 'production'
-    ? configureStoreProd
-    : configureStoreDev;
+const selectedConfigureStore = configureStoreDev;
+// process.env.NODE_ENV === 'production' ? configureStoreProd : configureStoreDev;
 
-const configureStore = selectedConfigureStore;
-export default configureStore;
-
-// export const { history } = selectedConfigureStore;
+export const { configureStore } = selectedConfigureStore;
+export const { history } = selectedConfigureStore;

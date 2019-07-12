@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { createHashHistory, createMemoryHistory } from 'history';
+import { createMemoryHistory } from 'history';
 import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import {
@@ -14,6 +14,8 @@ import createRootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
 import type { counterStateType } from '../reducers/types';
 
+const history = createMemoryHistory();
+
 const configureStore = (
   initialState?: counterStateType,
   scope: string = 'main'
@@ -22,9 +24,7 @@ const configureStore = (
   let middleware = [];
   const enhancers = [];
 
-  const history =
-    scope === 'main' ? createMemoryHistory() : createHashHistory();
-
+  // const history = scope === 'main' ? historyMain : historyRenderer;
   const rootReducer = createRootReducer(scope, history);
 
   // Thunk Middleware
@@ -45,7 +45,7 @@ const configureStore = (
   if (scope === 'renderer') {
     // Router Middleware
     const router = routerMiddleware();
-    middleware = [...middleware, forwardToMain, router, ...middleware];
+    middleware = [forwardToMain, router, ...middleware];
   }
   if (scope === 'main') {
     middleware = [triggerAlias, ...middleware, forwardToRenderer];
@@ -92,4 +92,4 @@ const configureStore = (
   return store;
 };
 
-export default configureStore;
+export default { configureStore, history };

@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { getInitialStateRenderer } from 'electron-redux';
 import Root from './containers/Root';
-import configureStore from './store/configureStore';
+import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 
 const initialState = getInitialStateRenderer();
@@ -11,7 +11,7 @@ const store = configureStore(initialState, 'renderer');
 
 render(
   <AppContainer>
-    <Root store={store} />
+    <Root store={store} history={history} />
   </AppContainer>,
   document.getElementById('root')
 );
@@ -22,7 +22,7 @@ if (module.hot) {
     const NextRoot = require('./containers/Root').default;
     render(
       <AppContainer>
-        <NextRoot store={store} />
+        <NextRoot store={store} history={history} />
       </AppContainer>,
       document.getElementById('root')
     );
