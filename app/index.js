@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { getInitialStateRenderer } from 'electron-redux';
 import Root from './containers/Root';
-import { configureStore } from './store/configureStore';
+import configureStore from './store/configureStore';
 import './app.global.css';
 
 const initialState = getInitialStateRenderer();

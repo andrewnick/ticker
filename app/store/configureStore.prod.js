@@ -1,7 +1,7 @@
 // @flow
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { createHashHistory } from 'history';
+import { createMemoryHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import {
   forwardToMain,
@@ -13,14 +13,14 @@ import {
 import createRootReducer from '../reducers';
 import type { counterStateType } from '../reducers/types';
 
-const history = createHashHistory();
-const rootReducer = createRootReducer(history);
-
 function configureStore(
   initialState?: counterStateType,
   scope: string = 'main'
 ) {
   let middleware = [thunk];
+
+  const history = createMemoryHistory();
+  const rootReducer = createRootReducer(scope, history);
 
   if (scope === 'renderer') {
     const router = routerMiddleware(history);
@@ -42,4 +42,4 @@ function configureStore(
   return createStore(rootReducer, initialState, enhancer);
 }
 
-export default { configureStore, history };
+export default configureStore;
