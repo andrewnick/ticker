@@ -4,11 +4,21 @@ export type counterStateType = {
   +counter: number
 };
 
+export type timerStateType = {
+  +startDateTime: number,
+  +endDateTime: number,
+  +duration: number,
+  +currentState: string
+};
+
 export type Action = {
   +type: string
 };
 
-export type GetState = () => counterStateType;
+export type GetState = () => {
+  ...counterStateType,
+  timer: timerStateType
+};
 
 export type Dispatch = ReduxDispatch<Action>;
 

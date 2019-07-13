@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import styles from './Counter.css';
 import routes from '../constants/routes';
 
@@ -58,14 +59,13 @@ export default class Counter extends Component<Props> {
           >
             odd
           </button>
-          <button
-            className={styles.btn}
+          <Button
+            variant="contained"
             onClick={() => incrementAsync()}
-            data-tclass="btn"
-            type="button"
+            // data-tclass="btn"
           >
-            async
-          </button>
+            async{' '}
+          </Button>
         </div>
       </div>
     );

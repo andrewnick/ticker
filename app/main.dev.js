@@ -13,10 +13,15 @@
 import { app, BrowserWindow, Tray, Menu, nativeImage } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import * as CounterActions from './actions/counter';
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+
+import * as TimerActions from './actions/timer';
 import MenuBuilder from './menu';
 
 import { configureStore } from './store/configureStore';
+
+// const momentDurationFormatSetup = require('moment-duration-format');
 
 const store = configureStore(undefined, 'main');
 
@@ -107,18 +112,35 @@ app.on('ready', async () => {
   menuBuilder.buildMenu();
 
   tray = new Tray(icon);
-  tray.setTitle('0');
+  const state = store.getState();
+  tray.setTitle(formattedDuration(state.timer.duration));
 
   store.subscribe(() => {
     const state = store.getState();
-    tray.setTitle(state.counter.toString());
+    // console.log(state.timer.duration);
+    // const formattedDuration = moment
+    //   .duration(state.timer.duration, 'seconds')
+    //   .format('hh:mm:ss', {
+    //     trim: false
+    //   });
+    // console.log(formattedDuration);
+    tray.setTitle(formattedDuration(state.timer.duration));
+    // tray.setTitle(state.timer.duration.toString());
+    // tray.setTitle(formattedDuration);
   });
 
   tray.on('click', () => {
-    store.dispatch(CounterActions.increment());
+    console.log('click');
+
+    store.dispatch(TimerActions.toggle());
   });
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
 });
+
+const formattedDuration = seconds =>
+  moment.duration(seconds, 'seconds').format('hh:mm:ss', {
+    trim: false
+  });
