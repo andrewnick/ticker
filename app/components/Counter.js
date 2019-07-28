@@ -1,6 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import styles from './Counter.css';
 import routes from '../constants/routes';
 
@@ -34,38 +38,45 @@ export default class Counter extends Component<Props> {
           {counter}
         </div>
         <div className={styles.btnGroup}>
-          <button
-            className={styles.btn}
+          <IconButton
+            variant="contained"
+            color="primary"
             onClick={increment}
             data-tclass="btn"
             type="button"
           >
-            <i className="fa fa-plus" />
-          </button>
-          <button
+            <AddIcon fontSize="inherit" />
+          </IconButton>
+          <Button
+            variant="contained"
+            color="primary"
             className={styles.btn}
             onClick={decrement}
             data-tclass="btn"
             type="button"
           >
-            <i className="fa fa-minus" />
-          </button>
-          <button
+            <RemoveIcon fontSize="inherit" />
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
             className={styles.btn}
             onClick={incrementIfOdd}
             data-tclass="btn"
             type="button"
           >
             odd
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
             className={styles.btn}
             onClick={() => incrementAsync()}
             data-tclass="btn"
             type="button"
           >
             async
-          </button>
+          </Button>
         </div>
       </div>
     );
