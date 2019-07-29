@@ -10,10 +10,11 @@
  *
  * @flow
  */
-import { app, BrowserWindow, Tray, Menu, nativeImage } from 'electron';
+import { app, BrowserWindow, Tray, nativeImage } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import moment from 'moment';
+// eslint-disable-next-line no-unused-vars
 import momentDurationFormatSetup from 'moment-duration-format';
 import MenuBuilder from './menu';
 import { configureStore } from './store/configureStore';
@@ -81,7 +82,7 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     // show: false,
     width: 370,
-    height: 400
+    height: 520
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -121,9 +122,9 @@ app.on('ready', async () => {
   tray.setTitle(formattedDuration(state.timer.duration));
 
   store.subscribe(() => {
-    const state = store.getState();
-    tray.setTitle(formattedDuration(state.timer.duration));
-    tray.setImage(trayImage(state.timer.currentState));
+    const latestState = store.getState();
+    tray.setTitle(formattedDuration(latestState.timer.duration));
+    tray.setImage(trayImage(latestState.timer.currentState));
   });
 
   tray.on('click', () => {
@@ -145,18 +146,20 @@ const trayImage = (timerState = null) => {
 
   let icon = playIcon;
 
-  if (timerState == 'started') {
+  if (timerState === 'started') {
     icon = stopIcon;
   }
 
-  if (timerState == 'stopped') {
+  if (timerState === 'stopped') {
     icon = playIcon;
   }
 
   return nativeImage.createFromDataURL(icon);
 };
 
-const formattedDuration = seconds =>
-  moment.duration(seconds, 'seconds').format('hh:mm:ss', {
+const formattedDuration = seconds => {
+  const duration = moment.duration(seconds, 'seconds');
+  return duration.format('hh:mm:ss', {
     trim: false
   });
+};

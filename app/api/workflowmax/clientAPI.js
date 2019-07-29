@@ -1,10 +1,6 @@
 import { Builder, parseString } from 'xml2js';
 import util from 'util';
-// import type { APIIntegrateable } from '../APIIntegrateable';
-
-interface APIIntegrateable {
-  getUser(): string;
-}
+import type { APIIntegrateable } from '../APIIntegrateable';
 
 export default class WorkflowMaxClientAPI implements APIIntegrateable {
   constructor(apiKey, accountKey) {

@@ -1,9 +1,6 @@
 import https from 'https';
-// import type { APIIntegrateable } from '../APIIntegrateable';
+import type { APIIntegrateable } from '../APIIntegrateable';
 
-interface APIIntegrateable {
-  getUser(): string;
-}
 const TASK_PATH = '/v2/tasks';
 const TIMER_PATH = '/v2/time_entries';
 const TASK_ASSIGNMENTS = '/v2/task_assignments';

@@ -4,6 +4,12 @@ export type counterStateType = {
   +counter: number
 };
 
+export type userStateType = {
+  +id: number,
+  +name: string,
+  +email: string
+};
+
 export type timerStateType = {
   +startDateTime: number,
   +endDateTime: number,

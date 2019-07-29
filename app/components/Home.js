@@ -54,7 +54,7 @@ export default function Home(props: Props) {
         </Grid>
       </Grid>
 
-      <Link to={routes.COUNTER}>to Counter</Link>
+      <Link to={routes.LOGIN}>LogIn</Link>
       {/* </div> */}
     </Container>
     //     </Grid>
