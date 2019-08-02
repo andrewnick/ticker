@@ -8,7 +8,7 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
     this.accountKey = accountKey;
   }
 
-  getUser() {
+  async getUser(name, email) {
     // https://api.workflowmax.com/staff.api/get/123?apiKey=[your API key]&accountKey=[WorkflowMax account key]
     const { apiKey } = this;
     const response = `<Response>
@@ -24,13 +24,18 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
         </Staff>
       </Response>`;
 
-    parseString(response, function(err, result) {
-      // console.log(result);
-      const results = util.inspect(result, false, null);
-      console.log(results);
-    });
+    try {
+      const results = await new Promise(resolve => {
+        parseString(response, function(err, result) {
+          const results = util.inspect(result, false, null);
+          resolve(results);
+        });
+      });
 
-    return 'string';
+      return results;
+    } catch (err) {
+      return err;
+    }
   }
 
   sendUser() {

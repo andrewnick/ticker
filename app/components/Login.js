@@ -76,8 +76,7 @@ const Login = (props: Props) => {
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(true);
               dispatch(
-                UserActions.addUser({
-                  id: 1,
+                UserActions.loginUser({
                   name: values.name,
                   email: values.email
                 })

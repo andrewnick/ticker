@@ -19,10 +19,17 @@ export function removeUser() {
   };
 }
 
-export function fetchUser() {
+export function loginUser(name: string, email: string) {
   return (dispatch: Dispatch) => {
-    clientAPI.getUser();
+    clientAPI.getUser(name, email).then(data => {
+      console.log(data);
 
-    dispatch();
+      // dispatch(addUser, {
+
+      // });
+    });
+    // .catch(error => {
+    //   console.log(error);
+    // });
   };
 }

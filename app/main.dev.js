@@ -110,7 +110,7 @@ app.on('ready', async () => {
 
   const WFMClientAPI = new WorkflowMaxClientAPI();
   // WFMClientAPI.getUser();
-  WFMClientAPI.sendUser();
+  // WFMClientAPI.sendUser();
 
   const clientAPI = new HarvestClientAPI();
   // clientAPI.createEntry();

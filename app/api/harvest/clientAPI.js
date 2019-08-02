@@ -65,7 +65,7 @@ export default class HarvestClientAPI implements APIIntegrateable {
       .catch(rejection => console.log(rejection));
   }
 
-  get(path) {
+  async get(path) {
     console.log('send');
 
     fetch(`${BASE_URL}${path}`, this.options)
