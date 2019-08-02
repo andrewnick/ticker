@@ -1,9 +1,10 @@
-import https from 'https';
+import fetch from 'electron-fetch';
 import type { APIIntegrateable } from '../APIIntegrateable';
 
 const TASK_PATH = '/v2/tasks';
 const TIMER_PATH = '/v2/time_entries';
 const TASK_ASSIGNMENTS = '/v2/task_assignments';
+const BASE_URL = 'https://api.harvestapp.com';
 
 // curl -i \
 //   -H 'Harvest-Account-ID: 1150079'\
@@ -12,15 +13,13 @@ const TASK_ASSIGNMENTS = '/v2/task_assignments';
 //   "https://api.harvestapp.com/api/v2/users/me.json"
 
 export default class HarvestClientAPI implements APIIntegrateable {
-  constructor(apiKey, accountID) {
+  constructor() {
     this.apiKey =
       '191925.pt.bJpAte0QvT8uMXM6YtZ-zIr9P0mDyOltdg2KzVGhE2g3bOA89LwJCcPzkcW_50UAqQlAopH6XfR3rmmAmZs8ag';
     this.accountID = '1150079';
     this.userID = '2882062';
 
     this.options = {
-      protocol: 'https:',
-      hostname: 'api.harvestapp.com',
       headers: {
         'User-Agent': 'Node.js Harvest API Sample',
         Authorization: `Bearer ${this.apiKey}`, // process.env.HARVEST_ACCESS_TOKEN,
@@ -52,7 +51,7 @@ export default class HarvestClientAPI implements APIIntegrateable {
     const options = {
       ...this.options,
       method: 'POST',
-      path,
+      body: JSON.stringify(postData),
       headers: {
         ...this.options.headers,
         'Content-Type': 'application/json',
@@ -60,70 +59,18 @@ export default class HarvestClientAPI implements APIIntegrateable {
       }
     };
 
-    console.log(options);
-
-    const postReq = https
-      .request(options, res => {
-        const { statusCode } = res;
-
-        if (statusCode == 201) {
-          console.error(`Created Entry: ${statusCode}`);
-          return;
-        }
-
-        if (statusCode !== 200) {
-          console.error(`Request failed with status: ${statusCode}`);
-          return;
-        }
-
-        res.setEncoding('utf8');
-        res.on('data', function(chunk) {
-          console.log(`Response: ${chunk}`);
-        });
-      })
-      .on('error', e => {
-        console.error(`Got error: ${e.message}`);
-      });
-
-    postReq.write(postData);
-    postReq.end();
+    fetch(`${BASE_URL}${path}`, options)
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(rejection => console.log(rejection));
   }
 
   get(path) {
     console.log('send');
 
-    const options = {
-      ...this.options,
-      path
-    };
-
-    https
-      .get(options, res => {
-        const { statusCode } = res;
-
-        if (statusCode !== 200) {
-          console.error(`Request failed with status: ${statusCode}`);
-          return;
-        }
-
-        res.setEncoding('utf8');
-        let rawData = '';
-        res.on('data', chunk => {
-          rawData += chunk;
-        });
-        res.on('end', () => {
-          try {
-            const parsedData = JSON.parse(rawData);
-            console.log(parsedData);
-            console.log(parsedData.task_assignments[0]);
-            // console.log(parsedData[0]);
-          } catch (e) {
-            console.error(e.message);
-          }
-        });
-      })
-      .on('error', e => {
-        console.error(`Got error: ${e.message}`);
-      });
+    fetch(`${BASE_URL}${path}`, this.options)
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(rejection => console.log(rejection));
   }
 }

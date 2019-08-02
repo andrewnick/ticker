@@ -5,13 +5,11 @@ import type { Action, userStateType } from './types';
 const userInit = {
   id: 0,
   name: '',
-  email: ''
+  email: '',
+  loggedIn: false
 };
 
 export default function user(state: userStateType = userInit, action: Action) {
-  console.log(action.payload);
-  console.log(state);
-
   switch (action.type) {
     case ADD_USER:
       return action.payload;
