@@ -1,5 +1,6 @@
-import { Builder, parseString } from 'xml2js';
+import { parseString } from 'xml2js';
 import util from 'util';
+import ERRORS from '../APIErrors';
 import type { APIIntegrateable } from '../APIIntegrateable';
 
 export default class WorkflowMaxClientAPI implements APIIntegrateable {
@@ -26,9 +27,18 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
 
     try {
       const results = await new Promise(resolve => {
-        parseString(response, function(err, result) {
-          const results = util.inspect(result, false, null);
-          resolve(results);
+        parseString(response, (err, data) => {
+          console.log(data);
+          const result = {
+            id: data.Response.Staff[0].ID[0],
+            name: data.Response.Staff[0].Name[0],
+            email: data.Response.Staff[0].Email[0]
+          };
+
+          // const data = util.inspect(result, false, null);
+          console.log(result);
+
+          resolve(result);
         });
       });
 
@@ -38,28 +48,28 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
     }
   }
 
-  sendUser() {
-    // https://api.workflowmax.com/staff.api/get/123?apiKey=[your API key]&accountKey=[WorkflowMax account key]
+  // sendUser() {
+  //   // https://api.workflowmax.com/staff.api/get/123?apiKey=[your API key]&accountKey=[WorkflowMax account key]
 
-    const obj = {
-      Response: {
-        Status: ['OK'],
-        Staff: [
-          {
-            ID: ['1'],
-            Name: ['Jo Bloggs'],
-            Email: ['jo@bloggs.net'],
-            Phone: [''],
-            Mobile: [''],
-            Address: [''],
-            PayrollCode: ['']
-          }
-        ]
-      }
-    };
-    const builder = new Builder();
-    const xml = builder.buildObject(obj);
+  //   const obj = {
+  //     Response: {
+  //       Status: ['OK'],
+  //       Staff: [
+  //         {
+  //           ID: ['1'],
+  //           Name: ['Jo Bloggs'],
+  //           Email: ['jo@bloggs.net'],
+  //           Phone: [''],
+  //           Mobile: [''],
+  //           Address: [''],
+  //           PayrollCode: ['']
+  //         }
+  //       ]
+  //     }
+  //   };
+  //   const builder = new Builder();
+  //   const xml = builder.buildObject(obj);
 
-    console.log(xml);
-  }
+  //   console.log(xml);
+  // }
 }

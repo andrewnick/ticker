@@ -1,10 +1,11 @@
 // @flow
 import type { Dispatch, userStateType } from '../reducers/types';
-import clientAPI from '../api/workflowmax/clientAPI';
+import WorkflowMaxClientAPI from '../api/workflowmax/clientAPI';
 
 export const ADD_USER = 'ADD_USER';
 export const REMOVE_USER = 'REMOVE_USER';
 export const FETCH_USER = 'FETCH_USER';
+export const FETCH_ERROR = 'FETCH_ERROR';
 
 export function addUser(payload: userStateType) {
   return {
@@ -19,17 +20,24 @@ export function removeUser() {
   };
 }
 
+export function fetchError(error: string) {
+  return {
+    type: FETCH_ERROR,
+    payload: error
+  };
+}
+
 export function loginUser(name: string, email: string) {
   return (dispatch: Dispatch) => {
-    clientAPI.getUser(name, email).then(data => {
-      console.log(data);
-
-      // dispatch(addUser, {
-
-      // });
-    });
-    // .catch(error => {
-    //   console.log(error);
-    // });
+    const clientAPI = new WorkflowMaxClientAPI();
+    clientAPI
+      .getUser(name, email)
+      .then(data => {
+        dispatch(addUser(data));
+        return data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 }

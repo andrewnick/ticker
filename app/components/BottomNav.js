@@ -24,53 +24,72 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Icon from '@material-ui/core/Icon';
 import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
 import Toolbar from '@material-ui/core/Toolbar';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
-import RestoreIcon from '@material-ui/icons/Restore';
+import AddIcon from '@material-ui/icons/Add';
 import SettingsIcon from '@material-ui/icons/Settings';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EntriesList from './EntriesList';
-import TopNav from './TopNav';
-import BottomNav from './BottomNav';
-import Settings from './Settings';
+import AddEntry from './AddEntry';
 import routes from '../constants/routes';
 import styles from './Home.css';
 
-type Props = {};
+const useStyles = makeStyles(theme => ({
+  fabButton: {
+    position: 'absolute',
+    zIndex: 1,
+    top: -30,
+    right: theme.spacing(2),
+    margin: 0
+  }
+}));
 
-const TabPanel = props => {
-  const { children, value, index, ...other } = props;
+const BottomNav = () => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
-    >
-      <Box>{children}</Box>
-    </Typography>
+    <Grid container spacing={0} direction="column">
+      <Grid item>
+        <BottomNavigation
+        // value={value}
+        // onChange={handleChange}
+        // className={classes.root}
+        >
+          <Fab
+            color="secondary"
+            aria-label="add"
+            className={classes.fabButton}
+            onClick={handleClickOpen}
+          >
+            <AddIcon />
+          </Fab>
+          {/* <BottomNavigationAction
+            label="AddEntry"
+            value="add"
+            icon={<AddIcon />}
+          />
+          <BottomNavigationAction
+            label="Favorites"
+            value="favorites"
+            icon={<FavoriteIcon />}
+          /> */}
+        </BottomNavigation>
+        <AddEntry open={open} handleClose={handleClose} />
+      </Grid>
+    </Grid>
   );
 };
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
-
-export default function Home(props: Props) {
-  return (
-    <div>
-      <TopNav />
-      <TabPanel value={0} index={0}>
-        <EntriesList />
-      </TabPanel>
-      <BottomNav />
-    </div>
-  );
-}
+export default BottomNav;

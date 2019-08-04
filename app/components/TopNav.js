@@ -32,45 +32,77 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import EntriesList from './EntriesList';
-import TopNav from './TopNav';
-import BottomNav from './BottomNav';
 import Settings from './Settings';
 import routes from '../constants/routes';
 import styles from './Home.css';
 
-type Props = {};
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper
+  },
+  title: {
+    flexGrow: 1
+  }
+}));
 
-const TabPanel = props => {
-  const { children, value, index, ...other } = props;
+const TopNav = () => {
+  const [value, setValue] = useState(0);
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const a11yProps = index => {
+    return {
+      id: `scrollable-auto-tab-${index}`,
+      'aria-controls': `scrollable-auto-tabpanel-${index}`
+    };
+  };
 
   return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
-      aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
-    >
-      <Box>{children}</Box>
-    </Typography>
-  );
-};
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
-
-export default function Home(props: Props) {
-  return (
-    <div>
-      <TopNav />
-      <TabPanel value={0} index={0}>
-        <EntriesList />
-      </TabPanel>
-      <BottomNav />
+    <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Tuesday 4th
+          </Typography>
+          <IconButton color="inherit" onClick={handleClickOpen}>
+            <SettingsIcon />
+          </IconButton>
+        </Toolbar>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          aria-label="scrollable"
+          scrollButtons="on"
+        >
+          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Item Four" {...a11yProps(3)} />
+          <Tab label="Item Five" {...a11yProps(4)} />
+          <Tab label="Item Six" {...a11yProps(5)} />
+          <Tab label="Item Seven" {...a11yProps(6)} />
+        </Tabs>
+      </AppBar>
+      <Settings open={open} handleClose={handleClose} />
     </div>
   );
-}
+};
+
+export default TopNav;
