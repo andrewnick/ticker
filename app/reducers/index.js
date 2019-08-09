@@ -4,12 +4,14 @@ import { connectRouter } from 'connected-react-router';
 import counter from './counter';
 import timer from './timer';
 import user from './user';
+import entries from './entries';
 
 export default function createRootReducer(scope, history?: History) {
   let reducers = {
     counter,
     timer,
-    user
+    user,
+    entries
   };
 
   if (scope === 'renderer') {

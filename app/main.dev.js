@@ -19,6 +19,7 @@ import momentDurationFormatSetup from 'moment-duration-format';
 import MenuBuilder from './menu';
 import { configureStore } from './store/configureStore';
 import * as TimerActions from './actions/timer';
+import * as EntryActions from './actions/entries';
 import HarvestClientAPI from './api/harvest/clientAPI';
 import WorkflowMaxClientAPI from './api/workflowmax/clientAPI';
 // import type { APIIntegrateable } from './api/APIIntegrateable';
@@ -115,6 +116,8 @@ app.on('ready', async () => {
   const clientAPI = new HarvestClientAPI();
   // clientAPI.createEntry();
   // clientAPI.getTaskAssignments();
+
+  EntryActions.addEntries();
 
   tray = new Tray(trayImage());
   const state = store.getState();
