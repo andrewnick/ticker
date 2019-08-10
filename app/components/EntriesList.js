@@ -14,19 +14,20 @@ import routes from '../constants/routes';
 
 const EntriesList = () => {
   const entries = useSelector(state => state.entries);
+  const jobs = useSelector(state => state.jobs);
+  const clients = useSelector(state => state.clients);
+
   return (
     <Container component="main" maxWidth="xs">
       <Grid container spacing={2} direction="column">
         <Grid item>
           <List dense>
-            {Object.keys(entries).map(key => {
-              const entry = entries[key];
+            {Object.values(entries).map(entry => {
+              const job = jobs[entry.jobID];
+              const client = clients[job.clientID];
               return (
                 <ListItem divider key={entry.id}>
-                  <ListItemText
-                    primary={entry.startTime}
-                    secondary={entry.currentState}
-                  />
+                  <ListItemText primary={job.name} secondary={client.name} />
                   <Typography component="p">{entry.duration}</Typography>
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="Play/pause">

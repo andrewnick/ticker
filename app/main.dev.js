@@ -20,6 +20,8 @@ import MenuBuilder from './menu';
 import { configureStore } from './store/configureStore';
 import * as TimerActions from './actions/timer';
 import * as EntryActions from './actions/entries';
+import * as JobActions from './actions/jobs';
+import * as ClientActions from './actions/clients';
 import HarvestClientAPI from './api/harvest/clientAPI';
 import WorkflowMaxClientAPI from './api/workflowmax/clientAPI';
 // import type { APIIntegrateable } from './api/APIIntegrateable';
@@ -119,6 +121,8 @@ app.on('ready', async () => {
   // console.log(EntryActions);
 
   store.dispatch(EntryActions.fetchEntries());
+  store.dispatch(JobActions.fetchJobs());
+  store.dispatch(ClientActions.fetchClients());
 
   tray = new Tray(trayImage());
   const state = store.getState();

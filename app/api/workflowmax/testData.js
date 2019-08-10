@@ -118,7 +118,7 @@ const timeList = `<Response>
     <Time>
       <ID>123456</ID>
       <Job>
-        <ID>J000001</ID>
+        <ID>J000002</ID>
         <Name>Brochure Template</Name>
       </Job>
       <Task>
@@ -229,6 +229,106 @@ const timeUpdateDuration = `<Timesheet>
   <Note>Detailed note about the time sheet entry</Note>
 </Timesheet>`;
 
+const jobList = `<Response>
+  <Status>OK</Status>
+  <Jobs>
+    <Job>
+      <ID>J000001</ID>
+      <Name>Brochure Template</Name>
+      <Client>
+        <ID>255</ID>
+        <Name>XYZ Australia, NZ Business Unit</Name>
+      </Client>
+    </Job>
+    <Job>
+      <ID>J000002</ID>
+      <Name>Email Design</Name>
+      <Client>
+        <ID>697</ID>
+        <Name>A. Dutchess</Name>
+      </Client>
+    </Job>
+  </Jobs>
+</Response>`;
+
+const clientList = `<Response>
+  <Status>OK</Status>
+  <Clients>
+    <!-- Refer get/[id] method for full list of client fields  -->
+    <Client>
+      <ID>255</ID>
+      <Name>XYZ Australia, NZ Business Unit</Name>
+      <Email>someone@example.com</Email>
+      <DateOfBirth>1970-11-26</DateOfBirth>
+      <Address />
+      <City />
+      <Region />
+      <PostCode />
+      <Country />
+      <PostalAddress>
+         Level 32, PWC Building
+         188 Quay Street
+         Auckland Central
+      </PostalAddress>
+      <PostalCity>Auckland</PostalCity>
+      <PostalRegion />
+      <PostalPostCode>1001</PostalPostCode>
+      <PostalCountry />
+      <Phone>(02) 1723 5265</Phone>
+      <Fax />
+      <Website />
+      <ReferralSource />
+      <ExportCode />
+      <IsProspect>No</IsProspect>
+      <AccountManager>
+        <ID>2</ID>
+        <Name>Jo Blogs</Name>
+      </AccountManager>
+      <Type>
+        <Name>20th of Month</Name>
+        <CostMarkup>30.00</CostMarkup>
+        <PaymentTerm>DayOfMonth</PaymentTerm>  <!-- DayOfMonth or WithinDays  -->
+        <PaymentDay>20</PaymentDay>
+      </Type>
+      <Contacts>
+        <Contact>
+          <ID>220</ID>
+          <IsPrimary>yes</IsPrimary>
+          <Name>Samantha Benecke</Name>
+          <Salutation>Sam</Salutation>
+          <Addressee>Mrs S Benecke</Addressee>
+          <Mobile />
+          <Email />
+          <Phone />
+          <Position />
+        </Contact>
+      </Contacts>
+    </Client>
+    <Client>
+      <ID>697</ID>
+      <Name>A. Dutchess</Name>
+      <Address />
+      <City />
+      <Region />
+      <PostCode />
+      <Country />
+      <PostalAddress>P O Box 123</PostalAddress>
+      <PostalCity>Wellington</PostalCity>
+      <PostalRegion />
+      <PostalPostCode>6011</PostalPostCode>
+      <PostalCountry />
+      <Phone />
+      <Fax />
+      <Website />
+      <Contacts />
+      <BillingClient>
+         <ID>12345</ID>
+         <Name>Billing Client</Name>
+      </BillingClient>
+    </Client>
+  </Clients>
+</Response>`;
+
 export default {
   user,
   taskList,
@@ -240,5 +340,7 @@ export default {
   timeAddDuration,
   timeAddNegativeDuration,
   timeAddStartEnd,
-  timeUpdateDuration
+  timeUpdateDuration,
+  jobList,
+  clientList
 };

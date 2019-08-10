@@ -20,6 +20,7 @@ export type timerStateType = {
 export type entryStateType = {
   +id: number,
   +taskId: number,
+  +jobID: string,
   +name: string,
   +startDateTime: number,
   +endDateTime: number,
@@ -28,7 +29,20 @@ export type entryStateType = {
   +synced: boolean
 };
 
+export type jobStateType = {
+  +id: number,
+  +name: string,
+  +clientID: string
+};
+
+export type clientStateType = {
+  +id: number,
+  +name: string
+};
+
 export type entriesStateType = Object<entryStateType>;
+export type jobsStateType = Object<jobStateType>;
+export type clientsStateType = Object<clientStateType>;
 
 export type Action = {
   +type: string

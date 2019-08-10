@@ -35,7 +35,7 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
       let items = [];
 
       if (Array.isArray(times)) {
-        items = results.Response.Times.Time.map(time => {
+        items = times.map(time => {
           return this.timeMap(time);
         });
       } else {
@@ -55,6 +55,7 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
     return {
       id: time.ID,
       taskID: time.Task.ID,
+      jobID: time.Job.ID,
       date: time.Date,
       startTime: time.Start,
       endTime: time.End,
@@ -62,6 +63,71 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
     };
   }
 
+  async getJobs() {
+    const response = testData.jobList;
+    // const response = testData.timeListSingleEntry;
+    try {
+      const results = await parseXML(response);
+      const jobs = results.Response.Jobs.Job;
+      let items = [];
+
+      if (Array.isArray(jobs)) {
+        items = jobs.map(job => {
+          return this.jobMap(job);
+        });
+      } else {
+        items = [this.jobMap(jobs)];
+      }
+
+      // console.log('results', items);
+
+      return items;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  jobMap(item) {
+    return {
+      id: item.ID,
+      name: item.Name,
+      clientID: item.Client.ID
+    };
+  }
+
+  async getClients() {
+    const response = testData.clientList;
+    // const response = testData.timeListSingleEntry;
+    try {
+      const results = await parseXML(response);
+      const clients = results.Response.Clients.Client;
+      let items = [];
+      console.log(clients);
+
+      if (Array.isArray(clients)) {
+        items = clients.map(client => {
+          return this.clientMap(client);
+        });
+      } else {
+        items = [this.clientMap(client)];
+      }
+
+      // console.log('results', items);
+
+      return items;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  clientMap(item) {
+    return {
+      id: item.ID,
+      name: item.Name
+    };
+  }
   // sendUser() {
   //   // https://api.workflowmax.com/staff.api/get/123?apiKey=[your API key]&accountKey=[WorkflowMax account key]
 

@@ -5,13 +5,17 @@ import counter from './counter';
 import timer from './timer';
 import user from './user';
 import entries from './entries';
+import jobs from './jobs';
+import clients from './clients';
 
 export default function createRootReducer(scope, history?: History) {
   let reducers = {
     counter,
     timer,
     user,
-    entries
+    entries,
+    jobs,
+    clients
   };
 
   if (scope === 'renderer') {

@@ -19,9 +19,8 @@ export default function entries(
     // eslint-disable-next-line default-case
     switch (action.type) {
       case ADD_ENTRY:
-        const entry = action.payload;
-        draft[entry.id] = {
-          ...entry,
+        draft[action.payload.id] = {
+          ...action.payload,
           currentState: 'stopped',
           synced: true
         };
