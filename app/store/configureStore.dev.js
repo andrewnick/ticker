@@ -11,16 +11,12 @@ import {
   replayActionRenderer
 } from 'electron-redux';
 import createRootReducer from '../reducers';
-import * as counterActions from '../actions/counter';
 import * as timerActions from '../actions/timer';
-import type { counterStateType } from '../reducers/types';
+import type { GetState } from '../reducers/types';
 
 const history = createMemoryHistory();
 
-const configureStore = (
-  initialState?: counterStateType,
-  scope: string = 'main'
-) => {
+const configureStore = (initialState?: GetState, scope: string = 'main') => {
   // Redux Configuration
   let middleware = [];
   const enhancers = [];
@@ -54,7 +50,6 @@ const configureStore = (
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...counterActions,
     ...timerActions,
     ...routerActions
   };

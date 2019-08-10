@@ -1,9 +1,5 @@
 import type { Dispatch as ReduxDispatch, Store as ReduxStore } from 'redux';
 
-export type counterStateType = {
-  +counter: number
-};
-
 export type userStateType = {
   +id: number,
   +name: string,
@@ -49,8 +45,10 @@ export type Action = {
 };
 
 export type GetState = () => {
-  ...counterStateType,
-  timer: timerStateType
+  timer: timerStateType,
+  entries: entriesStateType,
+  jobs: jobsStateType,
+  clients: clientStateType
 };
 
 export type Dispatch = ReduxDispatch<Action>;

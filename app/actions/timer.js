@@ -25,21 +25,7 @@ export function setEnd() {
   };
 }
 
-// export function incrementIfOdd() {
-//   return (dispatch: Dispatch, getState: GetState) => {
-//     const { counter } = getState();
-
-//     if (counter % 2 === 0) {
-//       return;
-//     }
-
-//     dispatch(increment());
-//   };
-// }
-
 export function start() {
-  // console.log('start');
-
   return (dispatch: Dispatch, getState: GetState) => {
     const { timer } = getState();
     dispatch(setStart());
