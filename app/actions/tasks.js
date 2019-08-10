@@ -1,24 +1,24 @@
 // @flow
-import type { Dispatch, jobsStateType } from '../reducers/types';
+import type { Dispatch, tasksStateType } from '../reducers/types';
 import WorkflowMaxClientAPI from '../api/workflowmax/clientAPI';
 
-export const ADD_JOBS = 'ADD_JOBS';
+export const ADD_TASKS = 'ADD_TASKS';
 
-export function addJobs(payload: jobsStateType) {
+export function addTasks(payload: tasksStateType) {
   return {
-    type: ADD_JOBS,
+    type: ADD_TASKS,
     payload
   };
 }
 
-export function fetchJobs() {
+export function fetchTasks() {
   return (dispatch: Dispatch) => {
     const clientAPI = new WorkflowMaxClientAPI();
 
     clientAPI
-      .getJobs()
+      .getTasks()
       .then(data => {
-        dispatch(addJobs(data));
+        dispatch(addTasks(data));
         return data;
       })
       .catch(error => {

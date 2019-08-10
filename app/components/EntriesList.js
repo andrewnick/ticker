@@ -16,6 +16,7 @@ const EntriesList = () => {
   const entries = useSelector(state => state.entries);
   const jobs = useSelector(state => state.jobs);
   const clients = useSelector(state => state.clients);
+  const tasks = useSelector(state => state.tasks);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -24,10 +25,13 @@ const EntriesList = () => {
           <List dense>
             {Object.values(entries).map(entry => {
               const job = jobs[entry.jobID];
+              const task = tasks[entry.taskID];
               const client = clients[job.clientID];
+
               return (
                 <ListItem divider key={entry.id}>
-                  <ListItemText primary={job.name} secondary={client.name} />
+                  <ListItemText primary={task.name} secondary={client.name} />
+                  <Typography component="p">{job.name}</Typography>
                   <Typography component="p">{entry.duration}</Typography>
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="Play/pause">

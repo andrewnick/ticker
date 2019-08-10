@@ -1,41 +1,23 @@
-const tasksInit = {
-  orgainisations: [
-    {
-      id: ''
-      name: '',
-      jobs: [1,2,3]
+/* eslint-disable no-param-reassign */
+// @flow
+import produce from 'immer';
+import { ADD_TASKS } from '../actions/tasks';
+import type { Action, tasksStateType } from './types';
+
+const tasksInit = {};
+
+export default function entries(
+  state: tasksStateType = tasksInit,
+  action: Action
+) {
+  return produce(state, draft => {
+    // eslint-disable-next-line default-case
+    switch (action.type) {
+      case ADD_TASKS:
+        const tasks = action.payload;
+        tasks.forEach(task => {
+          draft[task.id] = task;
+        });
     }
-  ],
-  jobs: [
-    {
-      name: ''
-      organisation_id: 1,
-      task_id: 1
-    }
-  ],
-  tasks: [
-    {
-      id: 1,
-      organisation_id: 'Org1',
-      job_id: 'Job1',
-      name: 'Task1',
-    }
-  ]
-  user: {
-    id: '',
-    name: '',
-    password: '',
-  }
-  entries: [
-    {
-      id: 1,
-      user_id: 1
-      task_id: 1,
-      name: 'entry1',
-      startDateTime: 0,
-      endDateTime: 0,
-      duration: 0,
-      currentState: 'stopped'
-    }
-  ]
-};
+  });
+}

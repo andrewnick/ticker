@@ -103,7 +103,7 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
       const results = await parseXML(response);
       const clients = results.Response.Clients.Client;
       let items = [];
-      console.log(clients);
+      // console.log(clients);
 
       if (Array.isArray(clients)) {
         items = clients.map(client => {
@@ -126,6 +126,38 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
     return {
       id: item.ID,
       name: item.Name
+    };
+  }
+
+  async getTasks() {
+    const response = testData.taskList;
+
+    try {
+      const results = await parseXML(response);
+      const tasks = results.Response.TaskList.Task;
+      let items = [];
+      console.log('tasks', tasks);
+
+      if (Array.isArray(tasks)) {
+        items = tasks.map(task => {
+          return this.taskMap(task);
+        });
+      } else {
+        items = [this.taskMap(task)];
+      }
+
+      return items;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  taskMap(item) {
+    return {
+      id: item.ID,
+      name: item.Name,
+      description: item.Description
     };
   }
   // sendUser() {

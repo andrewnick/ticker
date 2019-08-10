@@ -6,6 +6,7 @@ import user from './user';
 import entries from './entries';
 import jobs from './jobs';
 import clients from './clients';
+import tasks from './tasks';
 
 export default function createRootReducer(scope, history?: History) {
   let reducers = {
@@ -13,7 +14,8 @@ export default function createRootReducer(scope, history?: History) {
     user,
     entries,
     jobs,
-    clients
+    clients,
+    tasks
   };
 
   if (scope === 'renderer') {

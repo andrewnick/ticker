@@ -22,6 +22,7 @@ import * as TimerActions from './actions/timer';
 import * as EntryActions from './actions/entries';
 import * as JobActions from './actions/jobs';
 import * as ClientActions from './actions/clients';
+import * as TasksActions from './actions/tasks';
 import HarvestClientAPI from './api/harvest/clientAPI';
 import WorkflowMaxClientAPI from './api/workflowmax/clientAPI';
 // import type { APIIntegrateable } from './api/APIIntegrateable';
@@ -123,6 +124,7 @@ app.on('ready', async () => {
   store.dispatch(EntryActions.fetchEntries());
   store.dispatch(JobActions.fetchJobs());
   store.dispatch(ClientActions.fetchClients());
+  store.dispatch(TasksActions.fetchTasks());
 
   tray = new Tray(trayImage());
   const state = store.getState();
