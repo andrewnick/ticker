@@ -68,10 +68,10 @@ const Login = (props: Props) => {
           <Formik
             initialValues={{ email: '', name: '' }}
             validationSchema={Yup.object().shape({
-              email: Yup.string()
-                .email()
-                .required('Required'),
-              name: Yup.string().required('Required')
+              // email: Yup.string()
+              //   .email()
+              //   .required('Required'),
+              // name: Yup.string().required('Required')
             })}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(true);

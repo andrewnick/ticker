@@ -1,3 +1,5 @@
+import xmlescape from 'xml-escape';
+
 const user = `<Response>
         <Status>OK</Status>
         <Staff>
@@ -64,7 +66,6 @@ const timeJob = `<Response>
       <Minutes>240</Minutes>
       <Note />
       <Billable>true</Billable>
-      <!-- below values are included if the time entry was record with a start and end time -->
       <Start>13:00</Start>
       <End>17:00</End>
     </Time>
@@ -94,7 +95,7 @@ const timeList = `<Response>
   <Status>OK</Status>
   <Times>
     <Time>
-      <ID>123456</ID>
+      <ID>123457</ID>
       <Job>
         <ID>J000001</ID>
         <Name>Brochure Template</Name>
@@ -111,7 +112,6 @@ const timeList = `<Response>
       <Minutes>240</Minutes>
       <Note />
       <Billable>true</Billable>
-      <!-- below values are included if the time entry was record with a start and end time -->
       <Start>13:00</Start>
       <End>17:00</End>
     </Time>
@@ -133,7 +133,33 @@ const timeList = `<Response>
       <Minutes>240</Minutes>
       <Note />
       <Billable>true</Billable>
-      <!-- below values are included if the time entry was record with a start and end time -->
+      <Start>13:00</Start>
+      <End>17:00</End>
+    </Time>
+  </Times>
+</Response>`;
+
+const timeListSingleEntry = `<Response>
+  <Status>OK</Status>
+  <Times>
+    <Time>
+      <ID>123456</ID>
+      <Job>
+        <ID>J000001</ID>
+        <Name>Brochure Template</Name>
+      </Job>
+      <Task>
+        <ID>412</ID>
+        <Name>Design & Layout</Name>
+      </Task>
+      <Staff>
+        <ID>1</ID>
+        <Name>Chris Spence </Name>
+      </Staff>
+      <Date>2008-10-29T00:00:00</Date>
+      <Minutes>240</Minutes>
+      <Note />
+      <Billable>true</Billable>
       <Start>13:00</Start>
       <End>17:00</End>
     </Time>
@@ -160,7 +186,6 @@ const timeItem = `<Response>
     <Minutes>240</Minutes>
     <Note />
     <Billable>true</Billable>
-    <!-- below values are included if the time entry was record with a start and end time -->
     <Start>13:00</Start>
     <End>17:00</End>
   </Time>
@@ -210,6 +235,7 @@ export default {
   task,
   timeJob,
   timeList,
+  timeListSingleEntry,
   timeItem,
   timeAddDuration,
   timeAddNegativeDuration,

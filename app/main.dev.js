@@ -116,8 +116,9 @@ app.on('ready', async () => {
   const clientAPI = new HarvestClientAPI();
   // clientAPI.createEntry();
   // clientAPI.getTaskAssignments();
+  // console.log(EntryActions);
 
-  EntryActions.addEntries();
+  store.dispatch(EntryActions.fetchEntries());
 
   tray = new Tray(trayImage());
   const state = store.getState();

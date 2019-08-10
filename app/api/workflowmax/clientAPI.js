@@ -1,5 +1,6 @@
 import { parseString } from 'xml2js';
 import util from 'util';
+import parseXML from './parseXML';
 import ERRORS from '../APIErrors';
 import testData from './testData';
 import type { APIIntegrateable } from '../APIIntegrateable';
@@ -15,53 +16,50 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
     const response = testData.user;
 
     try {
-      const results = await new Promise(resolve => {
-        parseString(response, (err, data) => {
-          console.log(data);
-          const result = {
-            id: data.Response.Staff[0].ID[0],
-            name: data.Response.Staff[0].Name[0],
-            email: data.Response.Staff[0].Email[0]
-          };
+      const results = await parseXML(response);
+      const { ID, Name, Email } = results.Response.Staff;
 
-          // const data = util.inspect(result, false, null);
-          console.log(result);
-
-          resolve(result);
-        });
-      });
-
-      return results;
+      return { id: ID, name: Name, email: Email };
     } catch (err) {
       return err;
     }
   }
 
   // GET https://api.workflowmax.com/time.api/staff/[id]?apiKey=[your API key]&accountKey=[WorkflowMax account key]&from=20090801&to=20090901
-  async getTasks() {
+  async getEntries() {
     const response = testData.timeList;
-
+    // const response = testData.timeListSingleEntry;
     try {
-      const results = await new Promise(resolve => {
-        parseString(response, (err, data) => {
-          console.log(data);
-          // const result = {
-          //   id: data.Response.Staff[0].ID[0],
-          //   name: data.Response.Staff[0].Name[0],
-          //   email: data.Response.Staff[0].Email[0]
-          // };
+      const results = await parseXML(response);
+      const times = results.Response.Times.Time;
+      let items = [];
 
-          // // const data = util.inspect(result, false, null);
-          // console.log(result);
-
-          resolve(result);
+      if (Array.isArray(times)) {
+        items = results.Response.Times.Time.map(time => {
+          return this.timeMap(time);
         });
-      });
+      } else {
+        items = [this.timeMap(times)];
+      }
 
-      return results;
+      // console.log('results', items);
+
+      return items;
     } catch (err) {
+      console.log(err);
       return err;
     }
+  }
+
+  timeMap(time) {
+    return {
+      id: time.ID,
+      taskID: time.Task.ID,
+      date: time.Date,
+      startTime: time.Start,
+      endTime: time.End,
+      duration: time.Minutes
+    };
   }
 
   // sendUser() {
