@@ -13,9 +13,6 @@
 import { app, BrowserWindow, Tray, nativeImage } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import moment from 'moment';
-// eslint-disable-next-line no-unused-vars
-import momentDurationFormatSetup from 'moment-duration-format';
 import MenuBuilder from './menu';
 import { configureStore } from './store/configureStore';
 import * as TimerActions from './actions/timer';
@@ -25,6 +22,7 @@ import * as ClientActions from './actions/clients';
 import * as TasksActions from './actions/tasks';
 import HarvestClientAPI from './api/harvest/clientAPI';
 import WorkflowMaxClientAPI from './api/workflowmax/clientAPI';
+import formattedDuration from './utils/time';
 // import type { APIIntegrateable } from './api/APIIntegrateable';
 
 const store = configureStore(undefined, 'main');
@@ -165,11 +163,4 @@ const trayImage = (timerState = null) => {
   }
 
   return nativeImage.createFromDataURL(icon);
-};
-
-const formattedDuration = seconds => {
-  const duration = moment.duration(seconds, 'seconds');
-  return duration.format('hh:mm:ss', {
-    trim: false
-  });
 };

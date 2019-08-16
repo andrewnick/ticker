@@ -59,7 +59,7 @@ export default class WorkflowMaxClientAPI implements APIIntegrateable {
       date: time.Date,
       startTime: time.Start,
       endTime: time.End,
-      duration: time.Minutes
+      duration: time.Minutes * 60
     };
   }
 

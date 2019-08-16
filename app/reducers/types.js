@@ -10,7 +10,7 @@ export type timerStateType = {
   +timeID: number,
   +startDateTime: number,
   +endDateTime: number,
-  +duration: number,
+  +duration: number, // seconds
   +currentState: string
 };
 

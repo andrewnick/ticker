@@ -11,6 +11,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useSelector } from 'react-redux';
 import routes from '../constants/routes';
+import formattedDuration from '../utils/time';
 
 const EntriesList = () => {
   const entries = useSelector(state => state.entries);
@@ -32,7 +33,9 @@ const EntriesList = () => {
                 <ListItem divider key={entry.id}>
                   <ListItemText primary={task.name} secondary={client.name} />
                   <Typography component="p">{job.name}</Typography>
-                  <Typography component="p">{entry.duration}</Typography>
+                  <Typography component="p">
+                    {formattedDuration(entry.duration)}
+                  </Typography>
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="Play/pause">
                       <PlayArrowIcon />
