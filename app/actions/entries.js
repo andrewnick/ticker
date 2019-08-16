@@ -1,15 +1,24 @@
 // @flow
 import type {
+  GetState,
   Dispatch,
   entryStateType,
   entriesStateType
 } from '../reducers/types';
+import * as TimerActions from './timer';
 import WorkflowMaxClientAPI from '../api/workflowmax/clientAPI';
 
 export const ADD_ENTRY = 'ADD_ENTRY';
 export const UPDATE_ENTRY = 'UPDATE_ENTRY';
 export const ADD_ENTRIES = 'ADD_ENTRIES';
 export const REMOVE_ENTRY = 'REMOVE_ENTRY';
+export const START_ENTRY = 'START_ENTRY';
+export const STOP_ENTRY = 'STOP_ENTRY';
+export const SET_DURATION = 'SET_DURATION';
+export const SET_START = 'SET_START';
+export const SET_STOP = 'SET_STOP';
+
+let intervalTimer;
 
 export function addEntries(payload: entriesStateType) {
   return {
@@ -38,6 +47,27 @@ export function addEntry(payload: entryStateType) {
   };
 }
 
+export function setDuration(entryID: number) {
+  return {
+    type: SET_DURATION,
+    payload: entryID
+  };
+}
+
+export function setStart(entryID: number) {
+  return {
+    type: SET_START,
+    payload: entryID
+  };
+}
+
+export function setStop(entryID: number) {
+  return {
+    type: SET_STOP,
+    payload: entryID
+  };
+}
+
 export function fetchEntries() {
   return (dispatch: Dispatch) => {
     const clientAPI = new WorkflowMaxClientAPI();
@@ -50,5 +80,52 @@ export function fetchEntries() {
       .catch(error => {
         console.log(error);
       });
+  };
+}
+
+export function startEntryTimer(entryID: number) {
+  // console.log('startEntryTimer', entryID);
+
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { timer } = getState();
+    dispatch(setStart(entryID));
+    intervalTimer = setInterval(() => {
+      dispatch(setDuration(entryID));
+    }, 1000);
+  };
+}
+
+export function stopEntryTimer(entryID: number) {
+  return (dispatch: Dispatch) => {
+    clearInterval(intervalTimer);
+    dispatch(setStop(entryID));
+  };
+}
+
+export function toggleEntryTimer(entryID: number) {
+  // console.log('entryID', entryID);
+
+  return (dispatch: Dispatch, getState: GetState) => {
+    const { entries } = getState();
+    // console.log(timer.currentState);
+    const currentEntry = entries[entryID];
+    // console.log(currentEntry);
+    // console.log(currentEntry.currentState);
+
+    switch (currentEntry.currentState) {
+      case 'started':
+        console.log('started', currentEntry.currentState);
+
+        dispatch(stopEntryTimer(entryID));
+        break;
+      case 'stopped':
+        // console.log(timer.currentState);
+        console.log('stopped', currentEntry.currentState);
+
+        dispatch(startEntryTimer(entryID));
+        break;
+      default:
+        break;
+    }
   };
 }

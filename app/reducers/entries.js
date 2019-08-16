@@ -5,7 +5,9 @@ import {
   ADD_ENTRY,
   ADD_ENTRIES,
   REMOVE_ENTRY,
-  FETCH_ERROR
+  SET_DURATION,
+  SET_START,
+  SET_STOP
 } from '../actions/entries';
 import type { Action, entriesStateType } from './types';
 
@@ -33,7 +35,22 @@ export default function entries(
             synced: true
           };
         });
+      case SET_DURATION:
+        console.log(action.payload);
+        console.log(draft[action.payload]);
+        console.log(state);
+      // draft[action.payload] = {
+      //   ...state,
+      //   duration: state[action.payload].duration + 1
+      // };
 
+      // console.log(draft[action.payload].duration);
+      // console.log(state[action.payload].duration);
+      // draft[action.payload].duration = state[action.payload].duration + 1;
+      case SET_START:
+      // draft[action.payload].currentState = 'started';
+      case SET_STOP:
+      // draft[action.payload].currentState = 'stopped';
       case REMOVE_ENTRY:
       // return userInit;
     }

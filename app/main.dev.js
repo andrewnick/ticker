@@ -83,9 +83,15 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  // mainWindow = new BrowserWindow({
+  //   // show: false,
+  //   width: 370,
+  //   height: 520
+  // });
+
   mainWindow = new BrowserWindow({
     // show: false,
-    width: 370,
+    width: 800,
     height: 520
   });
 
@@ -112,35 +118,9 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  const WFMClientAPI = new WorkflowMaxClientAPI();
-  // WFMClientAPI.getUser();
-  // WFMClientAPI.sendUser();
-
-  const clientAPI = new HarvestClientAPI();
-  // clientAPI.createEntry();
-  // clientAPI.getTaskAssignments();
-  // console.log(EntryActions);
-
-  store.dispatch(EntryActions.fetchEntries());
-  store.dispatch(JobActions.fetchJobs());
-  store.dispatch(ClientActions.fetchClients());
-  store.dispatch(TasksActions.fetchTasks());
-
-  tray = new Tray(trayImage());
-  const state = store.getState();
-  // tray.setTitle('-:--');
-  tray.setTitle(formattedDuration(state.timer.duration));
-
-  store.subscribe(() => {
-    const latestState = store.getState();
-    tray.setTitle(formattedDuration(latestState.timer.duration));
-    tray.setImage(trayImage(latestState.timer.currentState));
-  });
-
-  tray.on('click', () => {
-    store.dispatch(TimerActions.toggle());
-  });
-
+  apiTests();
+  fetchTimerEntries();
+  // setTray();
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
@@ -165,6 +145,39 @@ const trayImage = (timerState = null) => {
   }
 
   return nativeImage.createFromDataURL(icon);
+};
+
+const apiTests = () => {
+  const WFMClientAPI = new WorkflowMaxClientAPI();
+  // WFMClientAPI.getUser();
+  // WFMClientAPI.sendUser();
+
+  const clientAPI = new HarvestClientAPI();
+  // clientAPI.createEntry();
+  // clientAPI.getTaskAssignments();
+  // console.log(EntryActions);
+};
+
+const setTray = () => {
+  tray = new Tray(trayImage());
+  const state = store.getState();
+  // tray.setTitle('-:--');
+  tray.setTitle(formattedDuration(state.timer.duration));
+  store.subscribe(() => {
+    const latestState = store.getState();
+    tray.setTitle(formattedDuration(latestState.timer.duration));
+    tray.setImage(trayImage(latestState.timer.currentState));
+  });
+  tray.on('click', () => {
+    store.dispatch(TimerActions.toggle());
+  });
+};
+
+const fetchTimerEntries = () => {
+  store.dispatch(EntryActions.fetchEntries());
+  store.dispatch(JobActions.fetchJobs());
+  store.dispatch(ClientActions.fetchClients());
+  store.dispatch(TasksActions.fetchTasks());
 };
 
 const formattedDuration = seconds => {

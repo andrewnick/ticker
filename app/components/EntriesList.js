@@ -9,10 +9,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import routes from '../constants/routes';
+import * as EntryActions from '../actions/entries';
 
 const EntriesList = () => {
+  const dispatch = useDispatch();
   const entries = useSelector(state => state.entries);
   const jobs = useSelector(state => state.jobs);
   const clients = useSelector(state => state.clients);
@@ -34,7 +36,13 @@ const EntriesList = () => {
                   <Typography component="p">{job.name}</Typography>
                   <Typography component="p">{entry.duration}</Typography>
                   <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="Play/pause">
+                    <IconButton
+                      edge="end"
+                      aria-label="Play/pause"
+                      onClick={() =>
+                        dispatch(EntryActions.toggleEntryTimer(entry.id))
+                      }
+                    >
                       <PlayArrowIcon />
                     </IconButton>
                   </ListItemSecondaryAction>

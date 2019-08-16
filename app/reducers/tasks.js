@@ -14,8 +14,7 @@ export default function entries(
     // eslint-disable-next-line default-case
     switch (action.type) {
       case ADD_TASKS:
-        const tasks = action.payload;
-        tasks.forEach(task => {
+        action.payload.forEach(task => {
           draft[task.id] = task;
         });
     }
